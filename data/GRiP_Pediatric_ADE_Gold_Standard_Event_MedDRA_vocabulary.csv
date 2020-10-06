@@ -1,0 +1,155 @@
+Event_name,MedDRA_code,MedDRA_concept_id,MedDRA_concept_name,MedDRA_domain_id,MedDRA_vocabulary_id,MedDRA_standard_concept,MedDRA_valid_start_date,MedDRA_valid_end_date,MedDRA_invalid_reason,MedDRA_concept_code,MedDRA_concept_class_id
+acute kidney injury,10005481,36315573,Blood creatinine abnormal,Measurement,MedDRA,C,19700101,20991231,,10005481,PT
+acute kidney injury,10005483,36315575,Blood creatinine increased,Measurement,MedDRA,C,19700101,20991231,,10005483,PT
+acute kidney injury,10011372,36315595,Creatinine renal clearance decreased,Measurement,MedDRA,C,19700101,20991231,,10011372,PT
+acute kidney injury,10022870,36315611,Inulin renal clearance decreased,Measurement,MedDRA,C,19700101,20991231,,10022870,PT
+acute kidney injury,10038422,37019353,Renal cortical necrosis,Condition,MedDRA,C,19700101,20991231,,10038422,PT
+acute kidney injury,10038491,35506541,Renal papillary necrosis,Condition,MedDRA,C,19700101,20991231,,10038491,PT
+acute kidney injury,10055003,36315599,Creatinine urine decreased,Measurement,MedDRA,C,19700101,20991231,,10055003,PT
+acute kidney injury,10068447,36315594,Creatinine renal clearance abnormal,Measurement,MedDRA,C,19700101,20991231,,10068447,PT
+acute liver injury,10001547,36313522,Alanine aminotransferase abnormal,Measurement,MedDRA,C,19700101,20991231,,10001547,PT
+acute liver injury,10001551,36313524,Alanine aminotransferase increased,Measurement,MedDRA,C,19700101,20991231,,10001551,PT
+acute liver injury,10004659,35909522,Biliary cirrhosis,Condition,MedDRA,C,19700101,20991231,,10004659,PT
+acute liver injury,10004685,36313544,Bilirubin conjugated increased,Measurement,MedDRA,C,19700101,20991231,,10004685,PT
+acute liver injury,10019641,35909527,Hepatic cirrhosis,Condition,MedDRA,C,19700101,20991231,,10019641,PT
+acute liver injury,10019692,35909611,Hepatic necrosis,Condition,MedDRA,C,19700101,20991231,,10019692,PT
+acute liver injury,10019754,35909471,Hepatitis cholestatic,Condition,MedDRA,C,19700101,20991231,,10019754,PT
+acute liver injury,10019834,35909622,Hepatocellular damage neonatal,Condition,MedDRA,C,19700101,20991231,,10019834,PT
+acute liver injury,10019837,35909624,Hepatocellular injury,Condition,MedDRA,C,19700101,20991231,,10019837,PT
+acute liver injury,10059570,36312568,Blood alkaline phosphatase increased,Measurement,MedDRA,C,19700101,20991231,,10059570,PT
+acute liver injury,10059571,36312566,Blood alkaline phosphatase abnormal,Measurement,MedDRA,C,19700101,20991231,,10059571,PT
+acute liver injury,10066758,35909628,Mixed liver injury,Condition,MedDRA,C,19700101,20991231,,10066758,PT
+acute liver injury,10067125,35909503,Liver injury,Condition,MedDRA,C,19700101,20991231,,10067125,PT
+acute liver injury,10067718,36313543,Bilirubin conjugated abnormal,Measurement,MedDRA,C,19700101,20991231,,10067718,PT
+acute liver injury,10067969,35909606,Cholestatic liver injury,Condition,MedDRA,C,19700101,20991231,,10067969,PT
+acute liver injury,10070815,42889492,Acute yellow liver atrophy,Condition,MedDRA,C,20120927,20991231,,10070815,PT
+acute liver injury,10072268,42889495,Drug-induced liver injury,Condition,MedDRA,C,20120927,20991231,,10072268,PT
+agranulocytosis,10001507,35104874,Agranulocytosis,Condition,MedDRA,C,19700101,20991231,,10001507,PT
+agranulocytosis,10003506,36312880,Aspiration bone marrow abnormal,Procedure,MedDRA,C,19700101,20991231,,10003506,PT
+agranulocytosis,10004738,36312883,Biopsy bone marrow abnormal,Procedure,MedDRA,C,19700101,20991231,,10004738,PT
+agranulocytosis,10018687,35104879,Granulocytopenia,Condition,MedDRA,C,19700101,20991231,,10018687,PT
+agranulocytosis,10029366,36313436,Neutrophil count decreased,Measurement,MedDRA,C,19700101,20991231,,10029366,PT
+agranulocytosis,10050443,35104110,Granulocytes maturation arrest,Condition,MedDRA,C,19700101,20991231,,10050443,PT
+agranulocytosis,10051645,35104881,Idiopathic neutropenia,Condition,MedDRA,C,19700101,20991231,,10051645,PT
+agranulocytosis,10057528,36312907,Bone marrow myelogram abnormal,Procedure,MedDRA,C,19700101,20991231,,10057528,PT
+anaphylaxis,10002198,36009756,Anaphylactic reaction,Condition,MedDRA,C,19700101,20991231,,10002198,PT
+aplastic anemia,10002967,35104101,Aplastic anaemia,Condition,MedDRA,C,19700101,20991231,,10002967,PT
+aplastic anemia,10003506,36312880,Aspiration bone marrow abnormal,Procedure,MedDRA,C,19700101,20991231,,10003506,PT
+aplastic anemia,10021074,35104111,Hypoplastic anaemia,Condition,MedDRA,C,19700101,20991231,,10021074,PT
+aplastic anemia,10033661,35104113,Pancytopenia,Condition,MedDRA,C,19700101,20991231,,10033661,PT
+aplastic anemia,10051779,35104104,Bone marrow toxicity,Condition,MedDRA,C,19700101,20991231,,10051779,PT
+aplastic anemia,10053138,35104105,Congenital aplastic anaemia,Condition,MedDRA,C,19700101,20991231,,10053138,PT
+aplastic anemia,10053213,35104109,Febrile bone marrow aplasia,Condition,MedDRA,C,19700101,20991231,,10053213,PT
+aplastic anemia,10053504,36312912,Scan bone marrow abnormal,Procedure,MedDRA,C,19700101,20991231,,10053504,PT
+aplastic anemia,10057528,36312907,Bone marrow myelogram abnormal,Procedure,MedDRA,C,19700101,20991231,,10057528,PT
+aplastic anemia,10065553,35104103,Bone marrow failure,Condition,MedDRA,C,19700101,20991231,,10065553,PT
+aplastic anemia,10071576,42888939,Autoimmune aplastic anaemia,Condition,MedDRA,C,20120927,20991231,,10071576,PT
+bullous eruption,10015218,36009707,Erythema multiforme,Condition,MedDRA,C,19700101,20991231,,10015218,PT
+bullous eruption,10030081,35607134,Oculomucocutaneous syndrome,Condition,MedDRA,C,19700101,20991231,,10030081,PT
+bullous eruption,10037876,37320187,Rash papular,Condition,MedDRA,C,19700101,20991231,,10037876,PT
+bullous eruption,10042033,36009724,Stevens-Johnson syndrome,Condition,MedDRA,C,19700101,20991231,,10042033,PT
+bullous eruption,10044223,36009754,Toxic epidermal necrolysis,Condition,MedDRA,C,19700101,20991231,,10044223,PT
+bullous eruption,10057970,36009755,Toxic skin eruption,Condition,MedDRA,C,19700101,20991231,,10057970,PT
+psychosis,10001022,36919145,Acute psychosis,Condition,MedDRA,C,19700101,20991231,,10001022,PT
+psychosis,10001443,36919053,Affective disorder,Condition,MedDRA,C,19700101,20991231,,10001443,PT
+psychosis,10012239,36918968,Delusion,Condition,MedDRA,C,19700101,20991231,,10012239,PT
+psychosis,10012241,36918969,Delusion of grandeur,Condition,MedDRA,C,19700101,20991231,,10012241,PT
+psychosis,10012244,36918970,Delusion of reference,Condition,MedDRA,C,19700101,20991231,,10012244,PT
+psychosis,10012245,36918971,Delusion of replacement,Condition,MedDRA,C,19700101,20991231,,10012245,PT
+psychosis,10015134,36918974,Erotomanic delusion,Condition,MedDRA,C,19700101,20991231,,10015134,PT
+psychosis,10018671,36919067,Grandiosity,Condition,MedDRA,C,19700101,20991231,,10018671,PT
+psychosis,10023164,36918975,Jealous delusion,Condition,MedDRA,C,19700101,20991231,,10023164,PT
+psychosis,10033864,36919075,Paranoia,Condition,MedDRA,C,19700101,20991231,,10033864,PT
+psychosis,10034702,36918976,Persecutory delusion,Condition,MedDRA,C,19700101,20991231,,10034702,PT
+psychosis,10039621,36919154,Schizoaffective disorder,Condition,MedDRA,C,19700101,20991231,,10039621,PT
+psychosis,10039987,36919152,Senile psychosis,Condition,MedDRA,C,19700101,20991231,,10039987,PT
+psychosis,10040535,36919153,Shared psychotic disorder,Condition,MedDRA,C,19700101,20991231,,10040535,PT
+psychosis,10041317,36918977,Somatic delusion,Condition,MedDRA,C,19700101,20991231,,10041317,PT
+psychosis,10053632,36919151,Reactive psychosis,Condition,MedDRA,C,19700101,20991231,,10053632,PT
+psychosis,10056326,36919136,Transient psychosis,Condition,MedDRA,C,19700101,20991231,,10056326,PT
+psychosis,10057667,36919033,Bipolar disorder,Condition,MedDRA,C,19700101,20991231,,10057667,PT
+psychosis,10059232,36718514,Epileptic psychosis,Condition,MedDRA,C,19700101,20991231,,10059232,PT
+psychosis,10061040,36919146,Childhood psychosis,Condition,MedDRA,C,19700101,20991231,,10061040,PT
+psychosis,10061920,36919149,Psychotic disorder,Condition,MedDRA,C,19700101,20991231,,10061920,PT
+psychosis,10062645,36919147,Hysterical psychosis,Condition,MedDRA,C,19700101,20991231,,10062645,PT
+psychosis,10063033,36918973,Depressive delusion,Condition,MedDRA,C,19700101,20991231,,10063033,PT
+psychosis,10065617,36211642,Psychosis postoperative,Condition,MedDRA,C,19700101,20991231,,10065617,PT
+psychosis,10070669,42890510,Postictal psychosis,Condition,MedDRA,C,20120927,20991231,,10070669,PT
+QT prolongation,10014387,36311923,Electrocardiogram QT prolonged,Measurement,MedDRA,C,19700101,20991231,,10014387,PT
+QT prolongation,10024803,35204915,Long QT syndrome,Condition,MedDRA,C,19700101,20991231,,10024803,PT
+QT prolongation,10044066,35204977,Torsade de pointes,Condition,MedDRA,C,19700101,20991231,,10044066,PT
+seizure,10039911,36702251,Seizures (incl subtypes),Condition,MedDRA,C,19700101,20991231,,10039911,HLGT
+sepsis,10014824,36110635,Endotoxic shock,Condition,MedDRA,C,19700101,20991231,,10014824,PT
+sepsis,10015296,36110124,Escherichia sepsis,Condition,MedDRA,C,19700101,20991231,,10015296,PT
+sepsis,10027280,36110179,Meningococcal sepsis,Condition,MedDRA,C,19700101,20991231,,10027280,PT
+sepsis,10040047,36110642,Sepsis,Condition,MedDRA,C,19700101,20991231,,10040047,PT
+sepsis,10040049,36110643,Sepsis neonatal,Condition,MedDRA,C,19700101,20991231,,10040049,PT
+sepsis,10040051,36110193,Sepsis pasteurella,Condition,MedDRA,C,19700101,20991231,,10040051,PT
+sepsis,10040070,36110649,Septic shock,Condition,MedDRA,C,19700101,20991231,,10040070,PT
+sepsis,10045470,36110526,Umbilical sepsis,Condition,MedDRA,C,19700101,20991231,,10045470,PT
+sepsis,10048960,36110266,Streptococcal sepsis,Condition,MedDRA,C,19700101,20991231,,10048960,PT
+sepsis,10049151,35104887,Neutropenic sepsis,Condition,MedDRA,C,19700101,20991231,,10049151,PT
+sepsis,10051017,36110227,Staphylococcal bacteraemia,Condition,MedDRA,C,19700101,20991231,,10051017,PT
+sepsis,10051018,36110263,Streptococcal bacteraemia,Condition,MedDRA,C,19700101,20991231,,10051018,PT
+sepsis,10051379,35809190,Systemic inflammatory response syndrome,Condition,MedDRA,C,19700101,20991231,,10051379,PT
+sepsis,10053166,36110334,Candida sepsis,Condition,MedDRA,C,19700101,20991231,,10053166,PT
+sepsis,10053588,36110249,Group B streptococcus neonatal sepsis,Condition,MedDRA,C,19700101,20991231,,10053588,PT
+sepsis,10053840,36110631,Bacterial sepsis,Condition,MedDRA,C,19700101,20991231,,10053840,PT
+sepsis,10053879,36009888,Sepsis syndrome,Condition,MedDRA,C,19700101,20991231,,10053879,PT
+sepsis,10054047,36110256,Pneumococcal sepsis,Condition,MedDRA,C,19700101,20991231,,10054047,PT
+sepsis,10054137,36110068,Stenotrophomonas sepsis,Condition,MedDRA,C,19700101,20991231,,10054137,PT
+sepsis,10054160,36110150,Klebsiella sepsis,Condition,MedDRA,C,19700101,20991231,,10054160,PT
+sepsis,10054162,36110050,Micrococcal sepsis,Condition,MedDRA,C,19700101,20991231,,10054162,PT
+sepsis,10054210,36110093,Brucella sepsis,Condition,MedDRA,C,19700101,20991231,,10054210,PT
+sepsis,10054213,36110032,Citrobacter sepsis,Condition,MedDRA,C,19700101,20991231,,10054213,PT
+sepsis,10054219,36110112,Enterobacter sepsis,Condition,MedDRA,C,19700101,20991231,,10054219,PT
+sepsis,10054221,36110117,Enterococcal sepsis,Condition,MedDRA,C,19700101,20991231,,10054221,PT
+sepsis,10054264,36110146,Helicobacter sepsis,Condition,MedDRA,C,19700101,20991231,,10054264,PT
+sepsis,10056430,36110234,Staphylococcal sepsis,Condition,MedDRA,C,19700101,20991231,,10056430,PT
+sepsis,10057767,36110106,Corynebacterium sepsis,Condition,MedDRA,C,19700101,20991231,,10057767,PT
+sepsis,10057847,35909410,Biliary sepsis,Condition,MedDRA,C,19700101,20991231,,10057847,PT
+sepsis,10058040,35707938,Abdominal sepsis,Condition,MedDRA,C,19700101,20991231,,10058040,PT
+sepsis,10058041,36110653,Wound sepsis,Condition,MedDRA,C,19700101,20991231,,10058041,PT
+sepsis,10058872,36110637,Fungal sepsis,Condition,MedDRA,C,19700101,20991231,,10058872,PT
+sepsis,10058873,36110004,Anthrax sepsis,Condition,MedDRA,C,19700101,20991231,,10058873,PT
+sepsis,10058874,36110652,Viraemia,Condition,MedDRA,C,19700101,20991231,,10058874,PT
+sepsis,10058875,36110141,Haemophilus sepsis,Condition,MedDRA,C,19700101,20991231,,10058875,PT
+sepsis,10058876,36110914,Herpes sepsis,Condition,MedDRA,C,19700101,20991231,,10058876,PT
+sepsis,10058877,36110199,Pseudomonal sepsis,Condition,MedDRA,C,19700101,20991231,,10058877,PT
+sepsis,10058878,36110211,Salmonella sepsis,Condition,MedDRA,C,19700101,20991231,,10058878,PT
+sepsis,10058879,36110215,Serratia sepsis,Condition,MedDRA,C,19700101,20991231,,10058879,PT
+sepsis,10058889,36110293,Plague sepsis,Condition,MedDRA,C,19700101,20991231,,10058889,PT
+sepsis,10058973,36110421,Pseudallescheria sepsis,Condition,MedDRA,C,19700101,20991231,,10058973,PT
+sepsis,10059070,36110638,Pelvic sepsis,Condition,MedDRA,C,19700101,20991231,,10059070,PT
+sepsis,10063085,36110161,Listeria sepsis,Condition,MedDRA,C,19700101,20991231,,10063085,PT
+sepsis,10064952,36110189,Nocardia sepsis,Condition,MedDRA,C,19700101,20991231,,10064952,PT
+sepsis,10069141,36110645,Septic encephalopathy,Condition,MedDRA,C,19700101,20991231,,10069141,PT
+sepsis,10069684,42889518,Burkholderia cepacia complex sepsis,Condition,MedDRA,C,20120927,20991231,,10069684,PT
+sepsis,10070681,42889530,Campylobacter sepsis,Condition,MedDRA,C,20120927,20991231,,10070681,PT
+sepsis,10071362,42889540,Viral sepsis,Condition,MedDRA,C,20120927,20991231,,10071362,PT
+sudden death,10042434,35204976,Sudden death,Condition,MedDRA,C,19700101,20991231,,10042434,PT
+sudden death,10049418,35204975,Sudden cardiac death,Condition,MedDRA,C,19700101,20991231,,10049418,PT
+sudden death,10063894,35809070,Sudden unexplained death in epilepsy,Condition,MedDRA,C,19700101,20991231,,10063894,PT
+suicide,10010144,36919230,Completed suicide,Condition,MedDRA,C,19700101,20991231,,10010144,PT
+suicide,10042464,36919236,Suicide attempt,Condition,MedDRA,C,19700101,20991231,,10042464,PT
+thrombocytopenia,10035526,36313175,Platelet count abnormal,Measurement,MedDRA,C,19700101,20991231,,10035526,PT
+thrombocytopenia,10035528,36313176,Platelet count decreased,Measurement,MedDRA,C,19700101,20991231,,10035528,PT
+thrombocytopenia,10035531,35104678,Platelet destruction increased,Condition,MedDRA,C,19700101,20991231,,10035531,PT
+thrombocytopenia,10035532,35104679,Platelet disorder,Condition,MedDRA,C,19700101,20991231,,10035532,PT
+thrombocytopenia,10035540,35104690,Platelet production decreased,Condition,MedDRA,C,19700101,20991231,,10035540,PT
+thrombocytopenia,10037557,35104182,Purpura neonatal,Condition,MedDRA,C,19700101,20991231,,10037557,PT
+thrombocytopenia,10043554,35104691,Thrombocytopenia,Condition,MedDRA,C,19700101,20991231,,10043554,PT
+thrombocytopenia,10043557,35104692,Thrombocytopenia neonatal,Condition,MedDRA,C,19700101,20991231,,10043557,PT
+thrombocytopenia,10043561,35104693,Thrombocytopenic purpura,Condition,MedDRA,C,19700101,20991231,,10043561,PT
+thrombocytopenia,10062506,35104688,Heparin-induced thrombocytopenia,Condition,MedDRA,C,19700101,20991231,,10062506,PT
+thrombocytopenia,10070664,42889748,Heparin-induced thrombocytopenia test positive,Measurement,MedDRA,C,20120927,20991231,,10070664,PT
+thrombocytopenia,10072326,42888927,Non-immune heparin associated thrombocytopenia,Condition,MedDRA,C,20120927,20991231,,10072326,PT
+venous thromboembolism,10034272,37622471,Pelvic venous thrombosis,Condition,MedDRA,C,19700101,20991231,,10034272,PT
+venous thromboembolism,10037377,37219871,Pulmonary embolism,Condition,MedDRA,C,19700101,20991231,,10037377,PT
+venous thromboembolism,10038547,37019359,Renal vein embolism,Condition,MedDRA,C,19700101,20991231,,10038547,PT
+venous thromboembolism,10051055,37622465,Deep vein thrombosis,Condition,MedDRA,C,19700101,20991231,,10051055,PT
+venous thromboembolism,10064602,36818736,Venous thrombosis neonatal,Condition,MedDRA,C,19700101,20991231,,10064602,PT
+venous thromboembolism,10066592,35205193,Post procedural myocardial infarction,Condition,MedDRA,C,19700101,20991231,,10066592,PT
+ventricular arrhythmia,10047281,35204978,Ventricular arrhythmia,Condition,MedDRA,C,19700101,20991231,,10047281,PT
+ventricular arrhythmia,10047290,35204981,Ventricular fibrillation,Condition,MedDRA,C,19700101,20991231,,10047290,PT
+ventricular arrhythmia,10049447,35204947,Tachyarrhythmia,Condition,MedDRA,C,19700101,20991231,,10049447,PT

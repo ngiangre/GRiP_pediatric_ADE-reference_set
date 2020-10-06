@@ -1,0 +1,697 @@
+---
+title: "pediatric ADE performance with generated negatives"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,warning = F,message = F,
+                      fig.width = 10)
+```
+
+#### load libraries
+
+```{r}
+
+library(tidyverse)
+library(data.table)
+
+theme_set(
+  theme_classic(base_size = 16) +
+    theme(
+      text = element_text(face="bold")
+    )
+  )
+```
+
+#### set variables
+
+```{r}
+
+level <- "hlt"
+out_dir <- "../docs/imgs/"
+basename <- paste0("pediatric_reference_",level,"_ADE_performances_with_generated_negatives")
+
+```
+
+## load data
+
+```{r}
+
+truth_all <- fread(paste0("../data/GRiP_Pediatric_ADE_with_generated_negatives_meddra",level,".csv"))
+
+count <- fread(paste0("../data/pediatric_reference_",level,"_ADEs_counts_contigency_table_tests.csv"))
+
+psm_prr <- fread(paste0("../data/pediatric_reference_",level,"_psm_prr.csv"),drop = c("V1"))
+
+glm_rx_drug_psd <- fread(paste0("../data/pediatric_reference_",level,"_ADE_glm_with_drug_or_PSd_control_undersampling.csv"),drop = c("V1"))
+
+glm_rx_all_drugs <- fread(paste0("../data/pediatric_reference_",level,"_ADE_glm_with_drugs_control_undersampling.csv"),drop = c("V1"))
+
+glm_rx_drug <- 
+  glm_rx_drug_psd[
+  model_id=="fd_cv",
+  .(mest = mean(coefficient)),
+  by=.(atc_concept_id,meddra_concept_id)]
+glm_rx_drug$atc_concept_id <- as.integer(glm_rx_drug$atc_concept_id)
+glm_rx_drug$meddra_concept_id <- as.integer(glm_rx_drug$meddra_concept_id)
+
+glm_rx_PSd <- 
+  glm_rx_drug_psd[
+  model_id=="fPSd",
+  .(mest = mean(coefficient)),
+  by=.(atc_concept_id,meddra_concept_id)]
+glm_rx_PSd$atc_concept_id <- sapply(strsplit(glm_rx_PSd$atc_concept_id,"_"),function(x){x[1]})
+glm_rx_PSd$atc_concept_id <- as.integer(glm_rx_PSd$atc_concept_id)
+glm_rx_PSd$meddra_concept_id <- as.integer(glm_rx_PSd$meddra_concept_id)
+
+
+glm_rx_all_drugs <- 
+  glm_rx_all_drugs[
+  model_id=="f0_5cv",
+  .(mest = mean(coefficient)),
+  by=.(atc_concept_id,meddra_concept_id)]
+glm_rx_all_drugs$atc_concept_id <- as.integer(glm_rx_all_drugs$atc_concept_id)
+glm_rx_all_drugs$meddra_concept_id <- as.integer(glm_rx_all_drugs$meddra_concept_id)
+
+
+```
+
+```{r}
+
+truth_pred_join <- read_csv(paste0("../data/pediatric_reference_",level,"_ADEs_counts_contigency_table_tests.csv")) %>% 
+  filter(a>0) %>% 
+  data.table()
+
+truth_pred_psm_prr_join <- inner_join(truth_all,psm_prr,
+                   by=c("ATC_concept_id"="atc_concept_id",
+                        "MedDRA_concept_id"="meddra_concept_id")
+                   ) %>% 
+  select(ATC_concept_name,MedDRA_concept_name,
+         Control,
+         PRR) %>% 
+  distinct() %>% 
+  data.table()
+
+truth_glm_rx_PSd_join <- inner_join(truth_all,glm_rx_PSd,
+                   by=c("ATC_concept_id"="atc_concept_id",
+                        "MedDRA_concept_id"="meddra_concept_id")
+                   ) %>% 
+  select(ATC_concept_name,MedDRA_concept_name,
+         Control,
+         mest) %>% 
+  distinct() %>% 
+  data.table()
+
+truth_glm_rx_d_join <- inner_join(truth_all,glm_rx_drug,
+                   by=c("ATC_concept_id"="atc_concept_id",
+                        "MedDRA_concept_id"="meddra_concept_id")
+                   ) %>% 
+  select(ATC_concept_name,MedDRA_concept_name,
+         Control,
+         mest) %>% 
+  distinct() %>% 
+  data.table()
+
+truth_glm_rx_ds_join <- inner_join(truth_all,glm_rx_all_drugs,
+                   by=c("ATC_concept_id"="atc_concept_id",
+                        "MedDRA_concept_id"="meddra_concept_id")
+                   ) %>% 
+  select(ATC_concept_name,MedDRA_concept_name,
+         Control,
+         mest) %>% 
+  distinct() %>% 
+  data.table()
+
+
+```
+
+```{r}
+
+table(truth_pred_join$Control)
+
+```
+
+## Define performance functions
+
+```{r}
+
+vary_phv_threshold <- function(joined,
+                               n,
+                               param="",
+                               drug_col="",rx_col=""){
+
+  tp_cond = paste0(param," > ",n," & Control=='P'")
+  fp_cond = paste0(param," > ",n," & Control=='N'")
+  fn_cond = paste0(param," <= ",n," & Control=='P'")
+  tn_cond = paste0(param," <= ",n," & Control=='N'")
+  
+  tps <- joined %>% 
+    filter_(tp_cond)
+  fps <- joined %>% 
+    filter_(fp_cond)
+  fns <- joined %>% 
+    filter_(fn_cond)  
+  tns <- joined %>% 
+    filter_(tn_cond)
+  
+  tp_num = tps %>% 
+    select(!!drug_col,!!rx_col) %>% 
+    n_distinct()
+  
+  fp_num = fps %>% 
+    select(!!drug_col,!!rx_col) %>% 
+    n_distinct()
+  
+  fn_num = fns %>% 
+    select(!!drug_col,!!rx_col) %>% 
+    n_distinct()
+
+  tn_num = tns %>% 
+    select(!!drug_col,!!rx_col) %>% 
+    n_distinct()
+  
+  df <- data.frame(
+    "TP" = tp_num,
+    "FP" = fp_num,
+    "FN" = fn_num,
+    "TN" = tn_num,
+    "Threshold" = n
+  ) 
+  
+  df
+  
+}
+
+```
+
+
+
+## Compare statistic performance
+
+```{r}
+
+thresholds <- c(0,unique(truth_pred_join$a),1)
+thresholds <- thresholds[order(thresholds,decreasing = F)]
+thresholds <- thresholds[!is.infinite(thresholds)]
+
+df_count <- do.call(rbind,
+              lapply(thresholds,
+                     function(x){
+                       vary_phv_threshold(
+                         truth_pred_join,
+                         x,
+                         param="a",
+                         drug_col="ATC_concept_name",
+                         rx_col="MedDRA_concept_name"
+                         )
+                     }
+              )
+)
+df_count["Statistic"] <- "Number of Reports"
+
+thresholds <- c(0,unique(truth_pred_join$PRR),1)
+thresholds <- thresholds[order(thresholds,decreasing = F)]
+thresholds <- thresholds[!is.infinite(thresholds)]
+
+df_prr <- do.call(rbind,
+              lapply(thresholds,
+                     function(x){
+                       vary_phv_threshold(
+                         truth_pred_join,
+                         x,
+                         param="PRR",
+                         drug_col="ATC_concept_name",
+                         rx_col="MedDRA_concept_name"
+                         )
+                     }
+              )
+)
+df_prr["Statistic"] <- "PRR"
+
+df_psm_prr <- do.call(rbind,
+              lapply(thresholds,
+                     function(x){
+                       vary_phv_threshold(
+                         truth_pred_psm_prr_join,
+                         x,
+                         param="PRR",
+                         drug_col="ATC_concept_name",
+                         rx_col="MedDRA_concept_name"
+                         )
+                     }
+              )
+)
+df_psm_prr["Statistic"] <- "PSM PRR"
+
+thresholds <- c(0,unique(truth_glm_rx_d_join$mest),1)
+thresholds <- thresholds[order(thresholds,decreasing = F)]
+thresholds <- thresholds[!is.infinite(thresholds)]
+
+df_rxn_d <- do.call(rbind,
+              lapply(thresholds,
+                     function(x){
+                       vary_phv_threshold(
+                         truth_glm_rx_d_join,
+                         x,
+                         param="mest",
+                         drug_col="ATC_concept_name",
+                         rx_col="MedDRA_concept_name"
+                         )
+                     }
+              )
+)
+df_rxn_d["Statistic"] <- "drug"
+
+thresholds <- c(0,unique(truth_glm_rx_PSd_join$mest),1)
+thresholds <- thresholds[order(thresholds,decreasing = F)]
+thresholds <- thresholds[!is.infinite(thresholds)]
+
+df_rxn_PSd <- do.call(rbind,
+              lapply(thresholds,
+                     function(x){
+                       vary_phv_threshold(
+                         truth_glm_rx_PSd_join,
+                         x,
+                         param="mest",
+                         drug_col="ATC_concept_name",
+                         rx_col="MedDRA_concept_name"
+                         )
+                     }
+              )
+)
+df_rxn_PSd["Statistic"] <- "propensity score"
+
+thresholds <- c(0,unique(truth_glm_rx_ds_join$mest),1)
+thresholds <- thresholds[order(thresholds,decreasing = F)]
+thresholds <- thresholds[!is.infinite(thresholds)]
+
+df_rxn_ds <- do.call(rbind,
+              lapply(thresholds,
+                     function(x){
+                       vary_phv_threshold(
+                         truth_glm_rx_ds_join,
+                         x,
+                         param="mest",
+                         drug_col="ATC_concept_name",
+                         rx_col="MedDRA_concept_name"
+                         )
+                     }
+              )
+)
+df_rxn_ds["Statistic"] <- "drug | all other drugs"
+
+
+g <- 
+  bind_rows(
+    df_count,
+    df_prr,
+    df_psm_prr,
+    df_rxn_d,
+    df_rxn_PSd,
+    df_rxn_ds
+) %>%  
+  group_by(Statistic) %>% 
+  mutate(
+    Sensitivity = TP / (TP + FN),
+    Specificity = (FP / (FP + TN))
+  ) %>%
+  ungroup() %>% 
+  ggplot(aes(Specificity,Sensitivity,color=Statistic)) +
+  scale_color_brewer(palette="Set1") +
+  geom_point() +
+  geom_line() +
+  ylab("Sensitivity") +
+  xlab("1 - Specificity") +
+  xlim(0,1) +
+  ylim(0,1)
+  
+print(g)
+
+ggsave(paste0(out_dir,basename,"_ROC_performance_comparison.pdf"),
+       width=10,height=5)
+g <- 
+  bind_rows(
+    df_count,
+    df_prr,
+    df_psm_prr,
+    df_rxn_d,
+    df_rxn_PSd,
+    df_rxn_ds
+) %>%  
+  group_by(Statistic) %>% 
+  mutate(
+    Precision = TP / (TP + FP),
+    Recall = (TP / (FN + TP))
+  ) %>%
+  ungroup() %>% 
+  ggplot(aes(Recall,Precision,color=Statistic)) +
+  scale_color_brewer(palette="Set1") +
+  geom_point() +
+  geom_line() +
+  ylab("Precision") +
+  xlab("Recall") +
+  xlim(0,1) +
+  ylim(0,1)
+  
+print(g)
+
+ggsave(paste0(out_dir,basename,"_ROC_precision_recall_comparison.pdf"),
+       width=10,height=5)
+
+```
+
+### Scores
+
+```{r}
+
+df <- bind_rows(
+  df_count,
+  df_prr,
+  df_psm_prr,
+  df_rxn_d,
+  df_rxn_PSd,
+  df_rxn_ds
+) %>%  
+  arrange(Threshold) %>% 
+  group_by(Statistic) %>% 
+  mutate(
+    TPR = (TP / (TP + FN)),
+    FPR = (FP / (FP + TN)),
+    FNR = (FN / (FN + TP)),
+    FDR = (FP / (FP + TP)),
+    PPV = (TP / (TP + FP)),
+    NPV = (TN / (TN + FN)),
+    TNR = (TN / (TN + FP))
+  )
+
+simple_auc <- function(TPR, FPR){
+  # inputs already sorted, best scores first 
+  dFPR <- c(diff(FPR), 0)
+  dTPR <- c(diff(TPR), 0)
+  sum(TPR * dFPR) + sum(dTPR * dFPR)/2
+}
+
+df_scores <- NULL
+for(stat in unique(df$Statistic)){
+  tmp <- df %>% filter(Statistic==stat) %>% drop_na()
+  tpr <- tmp$TPR[order(tmp$TPR)]
+  fpr <- tmp$FPR[order(tmp$FPR)]
+  df_scores <- rbind(df_scores,c(stat,"AUROC",simple_auc(tpr,fpr)))
+}
+
+for(stat in unique(df$Statistic)){
+  tmp <- df %>% filter(Statistic==stat) %>% drop_na()
+  recall <- tmp$TPR[order(tmp$TPR)]
+  precision <- tmp$PPV[order(tmp$PPV)]
+  df_scores <- rbind(df_scores,c(stat,"AUPRC",simple_auc(recall,precision)))
+}
+
+df_scores <- as_tibble(df_scores,.name_repair = "minimal")
+colnames(df_scores) <- c("Detection","Metric","Score")
+df_scores$Score <- as.numeric(df_scores$Score)
+
+g <- df_scores %>% 
+  ggplot(aes(forcats::fct_reorder(Detection,Score),Score,fill=Detection)) +
+  geom_bar(stat="identity") +
+  scale_fill_brewer(palette = "Set1") +
+  geom_text(aes(label=round(Score,2)),hjust=-.2,fontface="bold") +
+  facet_grid(Metric~.) +
+  xlab("") +
+  ylim(0,1) +
+  coord_flip() +
+  theme(
+    legend.position = "none"
+  )
+
+print(g)
+
+ggsave(paste0(out_dir,basename,"_aumetric_performances_comparison.pdf"),
+       width=10,height=5)
+
+g <- df %>% 
+  gather(Metric, Value,
+         -Threshold,-Statistic) %>% 
+  filter(!(Metric %in% c("TP","TN","FP","FN"))) %>% 
+  ggplot(aes(Threshold,Value,
+                 color=Statistic,
+                 group=Statistic)) +
+  geom_point() +
+  geom_path() +
+  facet_wrap(~Metric) +
+  scale_color_brewer(palette="Set1") +
+  scale_x_log10()
+
+
+print(g)
+
+ggsave(paste0(out_dir,basename,"_metric_performances_comparison.pdf"),
+       width=10,height=5)
+
+g <- df %>% 
+  gather(Metric, Value,
+         -Threshold,-Statistic) %>% 
+  filter((Metric %in% c("PPV","NPV","FPR","TPR"))) %>% 
+  ggplot(aes(Threshold,Value,
+                 color=Metric,
+                 group=Metric)) +
+  geom_point() +
+  geom_path() +
+  facet_wrap(~Statistic) +
+  scale_color_brewer(palette="Set1") +
+  scale_x_log10()
+
+
+print(g)
+
+ggsave(paste0(out_dir,basename,"_statistic_performances_comparison.pdf"),
+       width=10,height=5)
+```
+
+## data for inspection
+
+```{r}
+
+df_count
+
+df_prr
+
+df_psm_prr
+
+df_rxn_d
+
+df_rxn_PSd
+
+df_rxn_ds
+
+```
+
+## Cutoffs
+
+```{r}
+
+df_a_metrics <- df_count %>% 
+  mutate(
+    TPR = (TP / (TP + FN)),
+    FPR = (FP / (FP + TN)),
+    FNR = (FN / (FN + TP)),
+    FDR = (FP / (FP + TP)),
+    PPV = (TP / (TP + FP)),
+    NPV = (TN / (TN + FN)),
+    TNR = (TN / (TN + FP))  
+    )
+
+df_prr_metrics <- df_prr %>% 
+  mutate(
+    TPR = (TP / (TP + FN)),
+    FPR = (FP / (FP + TN)),
+    FNR = (FN / (FN + TP)),
+    FDR = (FP / (FP + TP)),
+    PPV = (TP / (TP + FP)),
+    NPV = (TN / (TN + FN)),
+    TNR = (TN / (TN + FP))  
+    )
+
+df_psm_prr_metrics <- df_psm_prr %>% 
+  mutate(
+    TPR = (TP / (TP + FN)),
+    FPR = (FP / (FP + TN)),
+    FNR = (FN / (FN + TP)),
+    FDR = (FP / (FP + TP)),
+    PPV = (TP / (TP + FP)),
+    NPV = (TN / (TN + FN)),
+    TNR = (TN / (TN + FP))  
+    )
+
+df_rxn_PSd_cunder_metrics <- df_rxn_PSd %>% 
+  mutate(
+    TPR = (TP / (TP + FN)),
+    FPR = (FP / (FP + TN)),
+    FNR = (FN / (FN + TP)),
+    FDR = (FP / (FP + TP)),
+    PPV = (TP / (TP + FP)),
+    NPV = (TN / (TN + FN)),
+    TNR = (TN / (TN + FP))  
+    )
+
+df_rxn_d_cunder_metrics <- df_rxn_d %>% 
+  mutate(
+    TPR = (TP / (TP + FN)),
+    FPR = (FP / (FP + TN)),
+    FNR = (FN / (FN + TP)),
+    FDR = (FP / (FP + TP)),
+    PPV = (TP / (TP + FP)),
+    NPV = (TN / (TN + FN)),
+    TNR = (TN / (TN + FP))  
+    )
+
+df_rxn_ds_cunder_metrics <- df_rxn_ds %>% 
+  mutate(
+    TPR = (TP / (TP + FN)),
+    FPR = (FP / (FP + TN)),
+    FNR = (FN / (FN + TP)),
+    FDR = (FP / (FP + TP)),
+    PPV = (TP / (TP + FP)),
+    NPV = (TN / (TN + FN)),
+    TNR = (TN / (TN + FP))  
+    )
+
+
+df_thresh <- NULL
+tmp <- df_a_metrics
+df_thresh <- rbind(df_thresh,tmp[which.max(tmp$TPR + (1-tmp$FPR) ),])
+count_cuttoff <- tmp[which.max(tmp$TPR + (1-tmp$FPR) ),"Threshold"]
+
+tmp <- df_prr_metrics
+df_thresh <- rbind(df_thresh,tmp[which.max(tmp$TPR + (1-tmp$FPR) ),])
+prr_cuttoff <- tmp[which.max(tmp$TPR + (1-tmp$FPR) ),"Threshold"]
+
+tmp <- df_psm_prr_metrics
+df_thresh <- rbind(df_thresh,tmp[which.max(tmp$TPR + (1-tmp$FPR) ),])
+psm_prr_cuttoff <- tmp[which.max(tmp$TPR + (1-tmp$FPR) ),"Threshold"]
+
+tmp <- df_rxn_d_cunder_metrics
+df_thresh <- rbind(df_thresh,tmp[which.max(tmp$TPR + (1-tmp$FPR) ),])
+drug_cunder_cuttoff <- tmp[which.max(tmp$TPR + (1-tmp$FPR) ),"Threshold"]
+
+tmp <- df_rxn_PSd_cunder_metrics
+df_thresh <- rbind(df_thresh,tmp[which.max(tmp$TPR + (1-tmp$FPR) ),])
+PSd_cunder_cuttoff <- tmp[which.max(tmp$TPR + (1-tmp$FPR) ),"Threshold"]
+
+tmp <- df_rxn_ds_cunder_metrics
+df_thresh <- rbind(df_thresh,tmp[which.max(tmp$TPR + (1-tmp$FPR) ),])
+drugs_cunder_cuttoff <- tmp[which.max(tmp$TPR + (1-tmp$FPR) ),"Threshold"]
+
+df_thresh
+
+g <- df_thresh %>% 
+  gather(Metric,Value,-Statistic) %>%  
+  filter(!Metric %in% c("Threshold","FP","TP","TN","FN")) %>% 
+  ggplot() + 
+  geom_bar(
+    aes(forcats::fct_reorder(Statistic,Value),Value,fill=Metric),
+    stat="identity") + 
+  ylim(0,1) + 
+  xlab("") +
+  facet_wrap(Metric~.,scales="free") + 
+  coord_flip() + 
+  theme(
+    legend.position = "none"
+    )
+
+print(g)
+
+ggsave(paste0(out_dir,basename,"_metric_performances_comparison_at_cutoff.pdf"),
+       width=12,height=5)
+
+truth_pred_join$Count_Class <- truth_pred_join$a>count_cuttoff
+table(truth_pred_join$Count_Class)
+
+truth_pred_join$PRR_Class <- truth_pred_join$PRR>prr_cuttoff
+table(truth_pred_join$PRR_Class)
+
+truth_pred_psm_prr_join$PSM_PRR_Class <- truth_pred_psm_prr_join$PRR>prr_cuttoff
+table(truth_pred_psm_prr_join$PSM_PRR_Class)
+
+truth_glm_rx_d_join$Class <- truth_glm_rx_d_join$mest>drug_cunder_cuttoff
+table(truth_glm_rx_d_join$Class)
+
+truth_glm_rx_PSd_join$Class <- truth_glm_rx_PSd_join$mest>PSd_cunder_cuttoff
+table(truth_glm_rx_PSd_join$Class)
+
+truth_glm_rx_ds_join$Class <- truth_glm_rx_ds_join$mest>drugs_cunder_cuttoff
+table(truth_glm_rx_ds_join$Class)
+
+grip <- read_csv("../data/GRiP_Pediatric_ADE_Gold_Standard_List_minimal_joined.csv")
+
+left_join(truth_pred_join %>% 
+            select(ATC_concept_name,
+                   MedDRA_concept_name,
+                   Count_Class) %>% 
+            distinct(),
+          grip %>% 
+            select(MedDRA_concept_name,
+                   ATC_concept_name,Control,
+                   Level_of_epidemiological_evidence,
+                   Population,Classification,Grade) %>% 
+            distinct()
+          ) %>% 
+  arrange(desc(Population))
+
+left_join(truth_pred_join %>% 
+            select(ATC_concept_name,
+                   MedDRA_concept_name,
+                   PRR_Class) %>% 
+            distinct(),
+          grip %>% 
+            select(MedDRA_concept_name,
+                   ATC_concept_name,Control,
+                   Level_of_epidemiological_evidence,
+                   Population,Classification,Grade) %>% 
+            distinct()
+          ) %>% 
+  arrange(desc(Population))
+
+left_join(truth_pred_psm_prr_join %>% 
+            select(ATC_concept_name,
+                   MedDRA_concept_name,
+                   PSM_PRR_Class) %>% 
+            distinct(),
+          grip %>% 
+            select(MedDRA_concept_name,
+                   ATC_concept_name,Control,
+                   Level_of_epidemiological_evidence,
+                   Population,Classification,Grade) %>% 
+            distinct()
+          ) %>% 
+  arrange(desc(Population))
+
+left_join(truth_glm_rx_d_join %>% 
+            select(ATC_concept_name,
+                   MedDRA_concept_name,
+                   Class) %>% 
+            distinct(),
+          grip %>% 
+            select(MedDRA_concept_name,
+                   ATC_concept_name,Control,
+                   Level_of_epidemiological_evidence,
+                   Population,Classification,Grade) %>% 
+            distinct()
+          ) %>% 
+  arrange(desc(Population))
+
+left_join(truth_glm_rx_ds_join %>% 
+            select(ATC_concept_name,
+                   MedDRA_concept_name,
+                   Class) %>% 
+            distinct(),
+          grip %>% 
+            select(MedDRA_concept_name,
+                   ATC_concept_name,Control,
+                   Level_of_epidemiological_evidence,
+                   Population,Classification,Grade) %>% 
+            distinct()
+          ) %>% 
+  arrange(desc(Population))
+
+
+```
