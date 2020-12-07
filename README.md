@@ -21,9 +21,9 @@ To ease the use of this reference set in analyses for validation within pediatri
 
 To widen the amount of negative controls for comparison, we algorithmically generated negative controls through the pairwise complement of positive controls. The notebook with the code is found at:
 
-`ntbks/R/pediatric_reference_pt_ADE_performances_with_generated_negatives.RmD`
+`ntbks/R/pediatric_reference_pt_ADE_performances_with_generated_negatives.Rmd`
 
-`ntbks/R/pediatric_reference_hlt_ADE_performances_with_generated_negatives.RmD`
+`ntbks/R/pediatric_reference_hlt_ADE_performances_with_generated_negatives.Rmd`
 
 ## Contribute
 
@@ -31,7 +31,7 @@ This machine readable reference set is meant to promote and improve validation i
 
 ## References
 
-The MedDDRA pediartic specific adverse event terms can be found [here](https://www.meddra.org/paediatric-and-gender-adverse-event-term-lists). This can be used in conjunction with this reference set within analyses. 
+The MedDRA pediartic specific adverse event terms can be found [here](https://www.meddra.org/paediatric-and-gender-adverse-event-term-lists). This can be used in conjunction with this reference set within analyses. 
 
 
 
