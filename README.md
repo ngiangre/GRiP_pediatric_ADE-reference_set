@@ -1,5 +1,7 @@
 # GRiP\_pediatric\_ADE-reference\_set
 
+[![DOI](https://zenodo.org/badge/298087617.svg)](https://zenodo.org/badge/latestdoi/298087617)
+
 The Global Research in Pediatrics consortium generated an adverse drug event reference set. The citation is:
 
 Osokogu, O.U., Fregonese, F., Ferrajolo, C. et al. Pediatric Drug Safety Signal Detection: A New Drug–Event Reference Set for Performance Testing of Data-Mining Methods and Systems. Drug Saf 38, 207–217 (2015). https://doi.org/10.1007/s40264-015-0265-0
